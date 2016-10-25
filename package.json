@@ -1,0 +1,26 @@
+{
+  "name": "reactkanban",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peter987bp/React-Kanban.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peter987bp/React-Kanban/issues"
+  },
+  "homepage": "https://github.com/peter987bp/React-Kanban#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "pg": "^6.1.0",
+    "sequelize": "^3.24.6",
+    "sequelize-cli": "^2.4.0"
+  }
+}

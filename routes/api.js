@@ -17,9 +17,10 @@ app.get('/', (req,res)=>{
   });
 });
 
-//Works
+
 app.post('/',(req, res) =>{
-  Card.create({
+  Card.create(
+  {
     title: req.body.title,
     piority_selection: req.body.piority_selection,
     status: req.body.status,
@@ -28,31 +29,33 @@ app.post('/',(req, res) =>{
   })
   .then((card) => {
     res.json({
-      sucess: true
+      cardposted: card
     });
   });
+});
 
-app.put('/',(req,res)=>{
-  Card.update({title: req.body.title, pirority_selection: req.body.pirority_selection, status: req.body.status,
-    created_by: req.body.created_by, assign_to: req.body.assign_to}, {where: {id: req.body.id} });
 
-  })
-  .then(()=> {
+app.put('/',(req,res) =>{
+  Card.update(
+    {
+      title: req.body.title, pirority_selection: req.body.pirority_selection, status: req.body.status,
+      created_by: req.body.created_by, assign_to: req.body.assign_to}, {where: {id: req.body.id}
+    })
+  .then((foo)=> {
     res.json({
       sucess: true
     });
+  });
 });
 
 app.delete('/', (req,res)=>{
-  console.log('req.body: ', req.body);
-  Card.destory({where: {id: req.body.id} })
-  .then(()=> {
+  console.log('req.body: ', req.body.id);
+  Card.destroy({where: {id: req.body.id} })
+  .then((deleted)=> {
     res.json({
-      sucess: true
+      deleted: deleted
     });
   });
-
-});
 });
 
 module.exports = app;

@@ -10,8 +10,9 @@ const reducer = combineReducers(reducers);
 const store = createStore(reducer);
 
 ReactDOM.render(
-  <App/>,
+<Provider store={ store }>
+  <App/>
+</Provider>,
   document.getElementById('root')
 );
 
-// <Provider store={ store }/>,

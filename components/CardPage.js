@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { receivePosts } from '../actions/cardActions';
+import { receiveCards } from '../actions/cardActions';
 import CardList from './CardList';
 import styles from './CardPage.scss';
 
@@ -32,8 +32,10 @@ class CardPage extends React.Component {
   };
 
   onCardData(data) {
-    const parsedCardData = JSON.parse(data.currentTarget.response);
-    this.setState({ cards: parsedCardData.cards });
+    const { dispatch } = this.props;
+    const parsedCardData = JSON.parse(data.currentTarget.response).cards;
+    dispatch(receiveCards(parsedCardData));
+
   };
 
   onCardError(error) {
@@ -76,14 +78,10 @@ class CardPage extends React.Component {
 
   updateCard() {
     let newAdd = this.submitAdd();
-    console.log('newAdd: ', newAdd);
-    console.log('newAdd.: ', newAdd.title);
     let urlNewAdd = `id=${newAdd.id}&title=${newAdd.title}`;
-    console.log('urlNewAdd: ', urlNewAdd);
     const oReq = new XMLHttpRequest();
     oReq.open("PUT", this.props.cardUrl);
     oReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-    console.log('submitAdd: ', this.submitAdd());
     oReq.addEventListener("load", this.submitAdd());
     oReq.addEventListener("error", this.onCardError);
     oReq.send(urlNewAdd);
@@ -132,11 +130,11 @@ class CardPage extends React.Component {
           Click Me
           </button>
         <div className={styles.CardPage}>
-          <CardList title='To-Do' cards={ this.state.cards.filter((todo) =>{
+          <CardList title='To-Do' cards={ this.props.data.filter((todo) =>{
             return todo.status ==='Todo'}) } />
-          <CardList title='Doing' cards={ this.state.cards.filter((doing) =>{
+          <CardList title='Doing' cards={ this.props.data.filter((doing) =>{
             return doing.status ==='Doing'}) } />
-          <CardList title='Done' cards={ this.state.cards.filter((done) =>{
+          <CardList title='Done' cards={ this.props.data.filter((done) =>{
             return done.status ==='Done'}) } />
         </div>
       </div>
@@ -148,23 +146,13 @@ class CardPage extends React.Component {
   data: React.PropTypes.array,
 }}
 
-// export default connect(
-//   mapStateToProps)(CardPage);
-// const mapStateToProps= (state, ownProps) => {
-//   const { cardPostReducer } = state;
-//   return {
-//     data: cardPostReducer.toJS()
-//   }
-// }
 
-export default CardPage ;
+const mapStateToProps= (state, ownProps) => {
+  const { cardPostReducer } = state;
+  return {
+    data: cardPostReducer.toJS()
+  }
+}
 
-
-
-
-
-
-
-
-
-
+export default connect(
+  mapStateToProps)(CardPage);

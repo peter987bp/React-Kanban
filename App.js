@@ -1,12 +1,12 @@
 import React from 'react';
-import RedditPage from './components/CardPage';
+import CardPage from './components/CardPage';
 
 class App extends React.Component {
   render() {
     return (
       <div>
-        <RedditPage
-          cardUrl = "https://www.reddit.com/r/discgolf.json"
+        <CardPage
+          cardUrl = "http://localhost:3000/api"
         />
       </div>
    )

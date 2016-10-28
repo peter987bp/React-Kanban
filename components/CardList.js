@@ -1,22 +1,26 @@
 import React from 'react';
 import CardItem from './CardItem';
+import styles from './CardList.scss';
 
 class CardList extends React.Component {
   render() {
-    console.log('this.props.data: ', this.props.data);
-    const cardListNode = this.props.data.map((dataItem) => {
+    // console.log('this.props: ', this.props.cards);
+    const CardListNode = this.props.cards.map((dataItem) => {
       return (
         <CardItem
-          author={ dataItem.data.author }
-          title={ dataItem.data.title }
-          key={ dataItem.data.id }
+          title={ dataItem.title }
+          assign_to={ dataItem.assign_to}
+          createdAt={ dataItem.createdAt }
+          created_by={ dataItem.created_by }
+          pirority_selection={ dataItem.pirority_selection }
+          key={ dataItem.id }
         />
       )
     })
     return (
-      <div>
-        <h2>Card List</h2>
-        { cardListNode }
+      <div className={styles.CardList}>
+        <h2>{this.props.title}</h2>
+        { CardListNode }
       </div>
     )
   }

@@ -1,11 +1,11 @@
 const express = require('express');
-const app = express();
+const router = express.Router();
 const db = require('../models');
 const Card = db.Card;
 
 
 
-app.get('/', (req,res)=>{
+router.get('/api', (req,res)=>{
   Card.findAll({
     limit:8
   })
@@ -18,7 +18,7 @@ app.get('/', (req,res)=>{
 });
 
 
-app.post('/',(req, res) =>{
+router.post('/api',(req, res) =>{
   Card.create(
   {
     title: req.body.title,
@@ -35,10 +35,12 @@ app.post('/',(req, res) =>{
 });
 
 
-app.put('/',(req,res) =>{
+router.put('/api',(req,res) =>{
+  console.log('req.body: ', req.body);
+  console.log('req.body.id: ', req.body.id);
   Card.update(
     {
-      title: req.body.title, pirority_selection: req.body.pirority_selection, status: req.body.status,
+      title: req.body.title, piority_selection: req.body.piority_selection, status: req.body.status,
       created_by: req.body.created_by, assign_to: req.body.assign_to}, {where: {id: req.body.id}
     })
   .then((foo)=> {
@@ -48,7 +50,7 @@ app.put('/',(req,res) =>{
   });
 });
 
-app.delete('/', (req,res)=>{
+router.delete('/api', (req,res)=>{
   console.log('req.body: ', req.body.id);
   Card.destroy({where: {id: req.body.id} })
   .then((deleted)=> {
@@ -58,4 +60,4 @@ app.delete('/', (req,res)=>{
   });
 });
 
-module.exports = app;
+module.exports = router;

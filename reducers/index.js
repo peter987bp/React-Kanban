@@ -1,2 +1,2 @@
-export { default as cardPostReducer} from './cardPostReducer';
+export { default as cardReducer} from './cardReducer';
 

@@ -1,8 +1,8 @@
 export const RECEIVE_CARDS = 'RECEIVE_CARDS';
 export const DELETE_CARDS = 'DELETE_CARDS';
+export const UPDATE_CARDS = 'UPDATE_CARDS';
 
 export const receiveCards = (data) =>{
-  console.log('data: ', data);
   return {
     type: RECEIVE_CARDS,
     data,
@@ -10,9 +10,16 @@ export const receiveCards = (data) =>{
 }
 
 export const deleteCard = (index) =>{
-  console.log('index: ', index);
   return{
     type: DELETE_CARDS,
-    index,
+    index: index,
+  }
+}
+
+export const updateCard = (updater) =>{
+  console.log('updater: ', updater);
+  return{
+    type: UPDATE_CARDS,
+    updater: updater,
   }
 }

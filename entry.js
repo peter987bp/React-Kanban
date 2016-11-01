@@ -4,10 +4,9 @@ import App from './App.js';
 import {createStore, combineReducers} from 'redux';
 import { Provider } from 'react-redux';
 import * as reducers from './reducers';
+import configureStore from './configureStore';
 
-//what are these doing???
-const reducer = combineReducers(reducers);
-const store = createStore(reducer);
+const store = configureStore();
 
 ReactDOM.render(
 <Provider store={ store }>

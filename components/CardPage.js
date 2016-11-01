@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { receiveCards } from '../actions/cardActions';
+import { updateCard } from '../actions/cardActions';
 import CardList from './CardList';
 import styles from './CardPage.scss';
 
@@ -19,23 +20,15 @@ class CardPage extends React.Component {
       assign_to: '',
     };
     this.onCardData = this.onCardData.bind(this);
-    this.submitAdd = this.submitAdd.bind(this);
-    this.updateCard = this.updateCard.bind(this);
-    this.changeAddedId = this.changeAddedId.bind(this);
-    this.changeAddedTitle = this.changeAddedTitle.bind(this);
-
-    this.changeAddedPioritySelection = this.changeAddedPioritySelection.bind(this);
-    this.changeAddedStatus = this.changeAddedStatus.bind(this);
-    this.changeAddedCreatedBy = this.changeAddedCreatedBy.bind(this);
-    this.changeAddedAssignTo = this.changeAddedAssignTo.bind(this);
 
   };
 
   onCardData(data) {
-    const { dispatch } = this.props;
+    //dispatches an action that sends a payload to the recieveCard action
+    // const { dispatch } = this.props;
+    const dispatch = this.props.dispatch;
     const parsedCardData = JSON.parse(data.currentTarget.response).cards;
     dispatch(receiveCards(parsedCardData));
-
   };
 
   onCardError(error) {
@@ -54,81 +47,43 @@ class CardPage extends React.Component {
     this.loadDataFromCard();
   };
 
-  //Add forum methods
-  changeAddedTitle(event){
-    this.setState({ title: event.target.value});
-  }
-  changeAddedPioritySelection(event){
-    this.setState( { piority_selection: event.target.value});
-  }
-  changeAddedStatus(event){
-    this.setState({ status: event.target.value});
-  }
-  changeAddedCreatedBy(event){
-    this.setState({ created_by: event.target.value});
-  }
-  changeAddedAssignTo(event){
-    this.setState({ assign_to: event.target.value});
-  }
-  changeAddedId(event){
-    this.setState({ id: event.target.value});
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps.data: ', nextProps.data);
+    this.loadDataFromCard();
   }
 
-  //call CreateNew Add with submitAdd
 
-  updateCard() {
-    let newAdd = this.submitAdd();
-    let urlNewAdd = `id=${newAdd.id}&title=${newAdd.title}`;
-    const oReq = new XMLHttpRequest();
-    oReq.open("PUT", this.props.cardUrl);
-    oReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-    oReq.addEventListener("load", this.submitAdd());
-    oReq.addEventListener("error", this.onCardError);
-    oReq.send(urlNewAdd);
-  };
 
-  //creates object to be sent to the database
-  submitAdd() {
-    let newAdd = {
-      id: this.state.id,
-      title: this.state.title,
-      piority_selection: this.state.piority_selection,
-      status: this.state.status,
-      created_by: this.state.created_by,
-      assign_to: this.state.assign_to,
-    };
-      return newAdd
-  };
   render() {
     return (
-      <div className={styles.addForum}>
+      <div>
       <input type="text"
-            placeholder="id"
-            value= {this.state.id}
-            onChange={this.changeAddedId} />
-          <input type ="text"
-            placeholder = "Title"
-            value={this.state.title}
-            onChange={this.changeAddedTitle} />
-          <input type="text"
-            placeholder="status"
-            value= {this.state.status}
-            onChange={this.changeAddedStatus} />
-          <input type="text"
-            placeholder="Piority_selection"
-            value= {this.state.piority_selection}
-            onChange={this.changeAddedPioritySelection} />
-          <input type ="text"
-            placeholder = "Assign_to"
-            value={this.state.assign_to}
-            onChange={this.changeAddedAssignTo} />
-          <input type="text"
-            placeholder = "CreatedBy"
-            value={this.state.created_by}
-            onChange={this.changeAddedCreatedBy} />
-          <button placeholder="Edit Card" onClick={this.updateCard}>
-          Click Me
-          </button>
+        placeholder="id"
+        value= {this.state.id}
+        onChange={this.changeAddedId} />
+      <input type ="text"
+        placeholder = "Title"
+        value={this.state.title}
+        onChange={this.changeAddedTitle} />
+      <input type="text"
+        placeholder="status"
+        value= {this.state.status}
+        onChange={this.changeAddedStatus} />
+      <input type="text"
+        placeholder="Piority_selection"
+        value= {this.state.piority_selection}
+        onChange={this.changeAddedPioritySelection} />
+      <input type ="text"
+        placeholder = "Assign_to"
+        value={this.state.assign_to}
+        onChange={this.changeAddedAssignTo} />
+      <input type="text"
+        placeholder = "CreatedBy"
+        value={this.state.created_by}
+        onChange={this.changeAddedCreatedBy} />
+      <button placeholder="Edit Card" onClick={this.onUpdateCard}>
+      Add a New Post
+      </button>
         <div className={styles.CardPage}>
           <CardList title='To-Do' cards={ this.props.data.filter((todo) =>{
             return todo.status ==='Todo'}) } />
@@ -146,11 +101,13 @@ class CardPage extends React.Component {
   data: React.PropTypes.array,
 }}
 
-
+//what is this doing
 const mapStateToProps= (state, ownProps) => {
-  const { cardPostReducer } = state;
+  const { cardReducer } = state;
+  // let cardPostReducer = state.cardPostReducer;
+  console.log('cardReducer.toJS(): ', cardReducer.toJS());
   return {
-    data: cardPostReducer.toJS()
+    data: cardReducer.toJS(),
   }
 }
 

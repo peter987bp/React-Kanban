@@ -7,7 +7,7 @@ const Card = db.Card;
 
 router.get('/api', (req,res)=>{
   Card.findAll({
-    limit:8
+    limit:20
   })
   .then((cards) => {
     res.json({

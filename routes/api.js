@@ -29,35 +29,42 @@ router.post('/api',(req, res) =>{
   })
   .then((card) => {
     res.json({
-      cardposted: card
+      cardPosted: card
     });
   });
 });
 
 
 router.put('/api',(req,res) =>{
-  console.log('req.body: ', req.body);
-  console.log('req.body.id: ', req.body.id);
   Card.update(
     {
       title: req.body.title, piority_selection: req.body.piority_selection, status: req.body.status,
       created_by: req.body.created_by, assign_to: req.body.assign_to}, {where: {id: req.body.id}
     })
-  .then((foo)=> {
+  .then(()=> {
+    Card.findById(req.body.id)
+    .then((serverUpdatedCard) => {
     res.json({
-      sucess: true
+      sucess: true,
+      serverUpatedCard: serverUpdatedCard.dataValues
     });
+    })
   });
 });
 
 router.delete('/api', (req,res)=>{
   console.log('req.body: ', req.body.id);
-  Card.destroy({where: {id: req.body.id} })
-  .then((deleted)=> {
-    res.json({
-      deleted: deleted
+  Card.findById(req.body.id)
+    .then((deleted)=> {
+      Card.destroy({where: {id: req.body.id} })
+      .then(()=>{
+      console.log('deleted: ', deleted);
+      res.json({
+        deleted: deleted.dataValues
+      });
     });
   });
+
 });
 
 module.exports = router;

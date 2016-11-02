@@ -19,6 +19,7 @@ class CardItem extends React.Component {
     }
 
     this.deleteXHR = this.deleteXHR.bind(this);
+    this.deleteAction = this.deleteAction.bind(this);
     this.onUpdateCard = this.onUpdateCard.bind(this);
     this.updateCard = this.updateCard.bind(this);
     this.changeAddedId = this.changeAddedId.bind(this);
@@ -28,7 +29,7 @@ class CardItem extends React.Component {
     this.changeAddedCreatedBy = this.changeAddedCreatedBy.bind(this);
     this.changeAddedAssignTo = this.changeAddedAssignTo.bind(this);
   };
-  //Add forum methods
+  //Update forum methods
   changeAddedTitle(event){
     this.setState({ title: event.target.value});
   }
@@ -48,22 +49,35 @@ class CardItem extends React.Component {
     this.setState({ id: event.target.value});
   }
 
+  deleteAction(deletedCard) {
+    const parsedDeletedCard = JSON.parse(deletedCard.currentTarget.response).deleted;
+    console.log('parsedDeletedCard: ', parsedDeletedCard);
+    const { dispatch}= this.props;
+    dispatch(deleteCard(parsedDeletedCard));
+  }
+
   deleteXHR(){
-    const { dispatch, index}= this.props;
-    dispatch(deleteCard(index));
+
     const urlDelete = `id=${this.props.id}`;
     const oReq = new XMLHttpRequest();
 
     oReq.open("DELETE", 'http://localhost:3000/api');
     oReq.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-    oReq.addEventListener('load', this.props);
+    oReq.addEventListener('load', this.deleteAction);
     oReq.addEventListener('error', this.onCardError);
 
     oReq.send(urlDelete);
   }
+  ///FIND OUT WHERE .FOO IS COMING FROM AND CHANGE IT
+  onUpdateCard(serverUpdatedCard) {
+    const parsedServerCard = JSON.parse(serverUpdatedCard.currentTarget.response).foo
+    console.log('parsedServerCard: ', parsedServerCard);
+    const {dispatch}= this.props;
+    dispatch(updateCard(parsedServerCard));
+  }
 
-  onUpdateCard() {
+  updateCard() {
     const updater = {
       id: this.props.id,
       title: this.state.title,
@@ -72,18 +86,13 @@ class CardItem extends React.Component {
       created_by: this.state.created_by,
       assign_to: this.state.assign_to,
     };
-    const {dispatch}= this.props;
-
-    dispatch(updateCard(updater));
-  }
-
-  updateCard(updater) {
-    let uriUpdater = `id=${updater.id}&title=${updater.title}&title=${updater.pirority_selection}&status=${updater.status}&created_by=${updater.created_by}&assign_to=${updater.assign_to}`;
+    let uriUpdater = `id=${updater.id}&title=${updater.title}&piority_selection=${updater.piority_selection}&status=${updater.status}&created_by=${updater.created_by}&assign_to=${updater.assign_to}`;
     const oReq = new XMLHttpRequest();
-    oReq.open("PUT", this.props.cardUrl);
+    oReq.open("PUT", 'http://localhost:3000/api');
     oReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-    oReq.addEventListener("load", this.onUpdateCard());
+    oReq.addEventListener("load", this.onUpdateCard);
     oReq.addEventListener("error", this.onCardError);
+    console.log('uriUpdater: ', uriUpdater);
     oReq.send(uriUpdater);
   };
 
@@ -102,10 +111,12 @@ class CardItem extends React.Component {
           placeholder = "Title"
           value={this.state.title}
           onChange={this.changeAddedTitle} />
-        <input type="text"
-          placeholder="status"
-          value= {this.state.status}
-          onChange={this.changeAddedStatus} />
+        <select onChange={this.changeAddedStatus} value={this.state.status}>
+          <option disabled='disabled' selected='selected'> Please select an option</option>
+          <option value ="Todo">To-Do</option>
+          <option value ="Doing">Doing</option>
+          <option value="Done">Done</option>
+        </select>
         <input type="text"
           placeholder="Piority_selection"
           value= {this.state.piority_selection}
@@ -118,7 +129,7 @@ class CardItem extends React.Component {
           placeholder = "CreatedBy"
           value={this.state.created_by}
           onChange={this.changeAddedCreatedBy} />
-        <button placeholder="Edit Card" onClick={this.onUpdateCard}>
+        <button placeholder="Edit Card" onClick={this.updateCard}>
         Click Me
         </button>
         </div>

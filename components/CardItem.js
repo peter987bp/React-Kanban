@@ -105,19 +105,19 @@ class CardItem extends React.Component {
         <p>Created At: { this.props.createdAt }</p>
         <p>Created By: { this.props.created_by }</p>
         <p>{ this.props.pirority_select }</p>
-        <button onClick={this.deleteXHR}>Delete</button>
+
         <p> Edit the Card</p>
-        <input type ="text"
+        <input className={styles.title} type ="text"
           placeholder = "Title"
           value={this.state.title}
           onChange={this.changeAddedTitle} />
-        <select onChange={this.changeAddedStatus} value={this.state.status}>
+        <select className={styles.status} onChange={this.changeAddedStatus} value={this.state.status}>
           <option disabled='disabled' selected='selected'> Please select an option</option>
           <option value ="Todo">To-Do</option>
           <option value ="Doing">Doing</option>
           <option value="Done">Done</option>
         </select>
-        <input type="text"
+        <input className={styles.piorityselection}type="text"
           placeholder="Piority_selection"
           value= {this.state.piority_selection}
           onChange={this.changeAddedPioritySelection} />
@@ -125,13 +125,14 @@ class CardItem extends React.Component {
           placeholder = "Assign_to"
           value={this.state.assign_to}
           onChange={this.changeAddedAssignTo} />
-        <input type="text"
+        <input className={styles.createdBy} type="text"
           placeholder = "CreatedBy"
           value={this.state.created_by}
           onChange={this.changeAddedCreatedBy} />
-        <button placeholder="Edit Card" onClick={this.updateCard}>
-        Click Me
+        <button className={styles.edit} placeholder="Edit Card" onClick={this.updateCard}>
+        Edit Card
         </button>
+        <button className={styles.delete} onClick={this.deleteXHR}>Delete</button>
         </div>
     )
   }

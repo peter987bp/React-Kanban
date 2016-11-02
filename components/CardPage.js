@@ -10,15 +10,6 @@ class CardPage extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      cards: [],
-      id: '',
-      title: '',
-      piority_selection: '',
-      status: '',
-      created_by: '',
-      assign_to: '',
-    };
     this.onCardData = this.onCardData.bind(this);
     this.onAddCard = this.onAddCard.bind(this);
     this.addedCard = this.addedCard.bind(this);
@@ -111,9 +102,9 @@ class CardPage extends React.Component {
       <div>
       <input type ="text"
         placeholder = "Title"
-        value={this.state.title}
+        value={this.props.title}
         onChange={this.changeAddedTitle} />
-      <select onChange={this.changeAddedStatus} value={this.state.status}>
+      <select onChange={this.changeAddedStatus} value={this.props.status}>
           <option disabled='disabled' selected='selected'> Please select an option</option>
           <option value ="Todo">To-Do</option>
           <option value ="Doing">Doing</option>
@@ -121,15 +112,15 @@ class CardPage extends React.Component {
         </select>
       <input type="text"
         placeholder="Piority_selection"
-        value= {this.state.piority_selection}
+        value= {this.props.piority_selection}
         onChange={this.changeAddedPioritySelection} />
       <input type ="text"
         placeholder = "Assign_to"
-        value={this.state.assign_to}
+        value={this.props.assign_to}
         onChange={this.changeAddedAssignTo} />
       <input type="text"
         placeholder = "CreatedBy"
-        value={this.state.created_by}
+        value={this.props.created_by}
         onChange={this.changeAddedCreatedBy} />
       <button placeholder="Edit Card" onClick={this.onAddCard}>
       Add a New Card

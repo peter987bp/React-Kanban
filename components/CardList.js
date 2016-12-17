@@ -1,6 +1,6 @@
 import React from 'react';
 import CardItem from './CardItem';
-import styles from './CardList.scss';
+import styles from './scss/CardList.scss';
 
 class CardList extends React.Component {
   render() {

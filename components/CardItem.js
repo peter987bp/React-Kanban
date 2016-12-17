@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './CardItem.scss';
+import styles from './scss/CardItem.scss';
 import { deleteCard, updateCard } from '../actions/cardActions';
 import { connect } from 'react-redux';
 import mapStateToProps from './CardPage';

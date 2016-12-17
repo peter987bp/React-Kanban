@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { receiveCards } from '../actions/cardActions';
 import { updateCard, addedCard } from '../actions/cardActions';
 import CardList from './CardList';
-import styles from './CardPage.scss';
+import styles from './scss/CardPage.scss';
 
 
 class CardPage extends React.Component {

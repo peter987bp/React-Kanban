@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './AddForum.scss';
+import styles from './scss/addForum.scss';
 import { connect } form 'react-redux';
 import { receiveCards} from '/..actions/cardActions';
 import CardList from './CardList';
